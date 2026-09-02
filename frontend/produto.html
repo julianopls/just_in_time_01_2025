@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Just in Time - Produtos</title>
+
+    <link rel="stylesheet" href="css/produto.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Produtos</h1>
+
+        <a href="index.html">Voltar</a>
+    </header>
+
+    <main>
+
+        <section class="cadastro">
+
+            <h2>Cadastrar Produto</h2>
+
+            <form id="formProduto">
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Nome do produto"
+                    required
+                >
+
+                <input
+                    type="text"
+                    id="descricao"
+                    placeholder="Descrição"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="custo"
+                    placeholder="Custo"
+                    step="0.01"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="quantidade_estoque"
+                    placeholder="Quantidade em estoque"
+                    required
+                >
+
+                <input
+                    type="number"
+                    id="estoque_minimo"
+                    placeholder="Estoque mínimo"
+                    required
+                >
+
+                <button type="submit">Cadastrar</button>
+
+            </form>
+
+            <p id="mensagem"></p>
+
+        </section>
+
+
+        <section class="lista">
+
+            <h2>Produtos cadastrados</h2>
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar produto..."
+            >
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                        <th>Custo</th>
+                        <th>Estoque</th>
+                        <th>Mínimo</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="listaProdutos"></tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+    <script src="js/produto.js"></script>
+
+</body>
+
+</html>

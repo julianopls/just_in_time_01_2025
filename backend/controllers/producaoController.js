@@ -19,29 +19,28 @@ function listarProducoes(req, res) {
 }
 
 function cadastrarProducao(req, res) {
+
     const {
         tipo,
-        quantidade,
         data,
         id_usuario,
         id_produto
     } = req.body;
 
-    // Verifica se o tipo é válido
+    const quantidade = Number(req.body.quantidade);
+
     if (tipo !== 'fabricado' && tipo !== 'pedido') {
         return res.status(400).json({
             mensagem: 'O tipo deve ser fabricado ou pedido'
         });
     }
 
-    // Verifica a quantidade
-    if (quantidade <= 0) {
+    if (quantidade <= 0 || isNaN(quantidade)) {
         return res.status(400).json({
             mensagem: 'A quantidade deve ser maior que zero'
         });
     }
 
-    // Busca o produto
     db.query(
         'SELECT * FROM produto WHERE id_produto = ?',
         [id_produto],
@@ -61,8 +60,10 @@ function cadastrarProducao(req, res) {
 
             const produto = resultado[0];
 
-            // Se for pedido, verifica o estoque
-            if (tipo === 'pedido' && produto.quantidade_estoque < quantidade) {
+            const estoqueAtual = Number(produto.quantidade_estoque);
+            const estoqueMinimo = Number(produto.estoque_minimo);
+
+            if (tipo === 'pedido' && estoqueAtual < quantidade) {
                 return res.status(400).json({
                     mensagem: 'Estoque insuficiente'
                 });
@@ -71,12 +72,11 @@ function cadastrarProducao(req, res) {
             let novoEstoque;
 
             if (tipo === 'fabricado') {
-                novoEstoque = produto.quantidade_estoque + quantidade;
+                novoEstoque = estoqueAtual + quantidade;
             } else {
-                novoEstoque = produto.quantidade_estoque - quantidade;
+                novoEstoque = estoqueAtual - quantidade;
             }
 
-            // Atualiza o estoque
             db.query(
                 `UPDATE produto
                  SET quantidade_estoque = ?
@@ -90,7 +90,6 @@ function cadastrarProducao(req, res) {
                         });
                     }
 
-                    // Registra a produção
                     db.query(
                         `INSERT INTO producao
                         (tipo, quantidade, data, id_usuario, id_produto)
@@ -110,12 +109,12 @@ function cadastrarProducao(req, res) {
                                 });
                             }
 
-                            let mensagem = 'Movimentação registrada com sucesso';
+                            let mensagem =
+                                'Movimentação registrada com sucesso';
 
-                            // Verifica estoque mínimo
                             if (
                                 tipo === 'pedido' &&
-                                novoEstoque < produto.estoque_minimo
+                                novoEstoque < estoqueMinimo
                             ) {
                                 mensagem =
                                     'Movimentação registrada. Atenção: estoque abaixo do mínimo!';
