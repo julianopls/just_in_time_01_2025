@@ -49,7 +49,7 @@ O **Just in Time** é uma aplicação full stack simples, com backend em **Node.
 - CSS3
 - JavaScript (Fetch API)
 
-## Capturas de tela
+## Relatorio de TESTE
 
 ### Telas do sistema
 
