@@ -45,9 +45,9 @@ O **Just in Time** é uma aplicação full stack simples, com backend em **Node.
 - [cors](https://www.npmjs.com/package/cors)
 
 **Frontend**
-- HTML5
-- CSS3
-- JavaScript (Fetch API)
+- HTML
+- CSS
+- JavaScript
 
 ## Relatorio de TESTE
 
